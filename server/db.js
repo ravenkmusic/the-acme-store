@@ -5,11 +5,11 @@ const bcrypt = require('bcrypt');
 
 const createTables = async () => {
     const SQL = `
-        DROP TABLE IF EXISTS user;
+        DROP TABLE IF EXISTS users;
         DROP TABLE IF EXISTS products;
         DROP TABLE IF EXISTS favorite;
 
-        CREATE TABLE user(
+        CREATE TABLE users(
             id UUID PRIMARY KEY,
             username VARCHAR(20) NOT NULL UNIQUE,
             password VARCHAR(20) NOT NULL
@@ -23,7 +23,7 @@ const createTables = async () => {
         CREATE TABLE favorite(
             id UUID PRIMARY KEY,
             products_id UUID REFERENCES products(id) NOT NULL,
-            user_id UUID REFERENCES user(id) NOT NULL,
+            user_id UUID REFERENCES users(id) NOT NULL,
             CONSTRAINT unique_user_id_products_id UNIQUE (user_id, products_id)
         );
     `;
@@ -48,7 +48,7 @@ const createUser = async ( {username, password}) => {
 
 const fetchUsers = async () => {
     const SQL = `
-        SELECT id, username FROM user;
+        SELECT id, username FROM users;
     `;
     const response = await client.query(SQL);
     return response.rows;
