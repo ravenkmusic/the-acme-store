@@ -32,8 +32,8 @@ const init = async ()=> {
         createProducts({name: 'Palmolive'}),
     ]);
 
-    console.log(await fetchUsers());
-    console.log(await fetchProducts());
+    console.log(await fetchUsers(), 'Users fetched.');
+    console.log(await fetchProducts(), 'Products fetched.');
 
     const port = process.env.PORT || 3000;
     app.listen(port, ()=> console.log(`Now listening on port ${port}.`));
