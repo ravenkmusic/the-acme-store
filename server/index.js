@@ -15,6 +15,43 @@ app.use(express.json());
 
 //routes
 
+//get users
+
+app.get('/api/users', async (req, res, next) => {
+    try {
+        res.send(await fetchUsers());
+    } catch (error) {
+        next(error);
+    }
+});
+
+//get products
+app.get('/api/products', async(req, res, next) =>{
+    try {
+        res.send(await fetchProducts());
+    } catch (error) {
+        next(error);
+    }
+});
+
+//get user favorites
+app.get('/api/users/:id/favorites', async(req, res, next)=>{
+    try {
+        res.send(await fetchFavorites(req.params.id));
+    } catch (error) {
+        next(error);
+    }
+});
+
+//add to user favorites
+app.post('/api/users/:id/favorites', async(req, res, next)=> {
+    try {
+        res.status(201).send(await createFavorite({user_id: req.params.id, products_id: req.body.products_id}));
+    } catch (error) {
+        next(error);
+    }
+});
+
 //init function
 const init = async ()=> {
     await client.connect();
@@ -39,13 +76,13 @@ const init = async ()=> {
         createFavorite({user_id: Grace.id, products_id: Palmolive.id}),
         createFavorite({user_id: Krystin.id, products_id: Dyson.id }),
         createFavorite({user_id: Arnold.id, products_id: Swiffer.id}),
-        createFavorite({user_id: Lauren.id, products_id: Swiffer}),
+        createFavorite({user_id: Lauren.id, products_id: Swiffer.id}),
         createFavorite({user_id: Grace.id, products_id: Tide.id}),
         createFavorite({user_id: Arnold.id, products_id: Dyson.id})
     ]);
 
-    console.log(await fetchFavorites(Lauren.id));
-    await destroyFavorite({user_id: Lauren.id, products_id: favorites[0].id});
+    console.log(await fetchFavorites(Grace.id));
+    await destroyFavorite({user_id: Grace.id, id: favorites[0].id});
     console.log(await fetchFavorites(Lauren.id));
 
     console.log(`curl -X POST localhost:3000/api/users/${Grace.id}/favorites -d '{"products_id": "${Tide.id}"}' -H 'Content-Type:application/json'`);
