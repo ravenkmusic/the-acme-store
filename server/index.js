@@ -1,7 +1,7 @@
 const {
     client,
     createTables,
-    createProduct,
+    createProducts,
     createUser,
     fetchUsers,
     fetchProducts,
@@ -21,6 +21,19 @@ const init = async ()=> {
     console.log('Client connected.');
     await createTables();
     console.log('Tables created.');
+    const [Grace, Arnold, Lauren, Krystin, Swiffer, Dyson, Tide, Palmolive] = await Promise.all([
+        createUser({username: 'Grace', password: 'Grace_pw' }),
+        createUser({username: 'Arnold', password: 'Arnold_pw}'}),
+        createUser({username: 'Lauren', password: 'Lauren_pw' }),
+        createUser({username: 'Krystin', password: 'Krystin_pw' }),
+        createProducts({name: 'Swiffer'}),
+        createProducts({name: 'Dyson'}),
+        createProducts({name: 'Tide'}),
+        createProducts({name: 'Palmolive'}),
+    ]);
+
+    console.log(await fetchUsers());
+    console.log(await fetchProducts());
 
     const port = process.env.PORT || 3000;
     app.listen(port, ()=> console.log(`Now listening on port ${port}.`));
