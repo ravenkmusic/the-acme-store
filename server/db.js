@@ -28,7 +28,7 @@ const createTables = async () => {
     await client.query(SQL);
 };
 
-const createproducts = async (name) => {
+const createProducts = async (name) => {
     const SQL = `
         INSERT INTO products(id, name) VALUES($1, $2) RETURNING *;
     `;
@@ -89,7 +89,7 @@ const destroyFavorite = async ({user_id, id}) => {
 module.exports = {
     client,
     createTables,
-    createproducts,
+    createProducts,
     createUser,
     fetchUsers,
     fetchproducts,
