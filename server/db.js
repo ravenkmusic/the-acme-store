@@ -52,7 +52,7 @@ const fetchUsers = async () => {
     return response.rows;
 };
 
-const fetchproducts = async () => {
+const fetchProducts = async () => {
     const SQL = `
         SELECT * FROM products;
     `;
@@ -92,7 +92,7 @@ module.exports = {
     createProducts,
     createUser,
     fetchUsers,
-    fetchproducts,
+    fetchProducts,
     fetchFavorites,
     createFavorite,
     destroyFavorite
