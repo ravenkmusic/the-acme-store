@@ -5,21 +5,19 @@ const bcrypt = require('bcrypt');
 
 const createTables = async () => {
     const SQL = `
+        DROP TABLE IF EXISTS favorite;
         DROP TABLE IF EXISTS users;
         DROP TABLE IF EXISTS products;
-        DROP TABLE IF EXISTS favorite;
 
         CREATE TABLE users(
             id UUID PRIMARY KEY,
             username VARCHAR(20) NOT NULL UNIQUE,
             password VARCHAR(20) NOT NULL
         );
-
         CREATE TABLE products(
             id UUID PRIMARY KEY,
             name VARCHAR(255) NOT NULL UNIQUE
         );
-
         CREATE TABLE favorite(
             id UUID PRIMARY KEY,
             products_id UUID REFERENCES products(id) NOT NULL,
