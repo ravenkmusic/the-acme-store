@@ -6,6 +6,7 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
+    "start:dev":  "nodemon server/index.js",
     "nodemon": "^3.1.0"
   }
 }
