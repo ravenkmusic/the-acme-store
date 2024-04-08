@@ -22,17 +22,17 @@ const createTables = async () => {
 
         CREATE TABLE favorite(
             id UUID PRIMARY KEY,
-            product_id UUID REFERENCES products(id) NOT NULL,
+            products_id UUID REFERENCES products(id) NOT NULL,
             user_id UUID REFERENCES user(id) NOT NULL,
-            CONSTRAINT unique_user_id_product_id UNIQUE (user_id, product_id)
+            CONSTRAINT unique_user_id_products_id UNIQUE (user_id, products_id)
         );
     `;
     await client.query(SQL);
 };
 
-const createProduct = async (name) => {
+const createproducts = async (name) => {
     const SQL = `
-        INSERT INTO product(id, name) VALUES($1, $2) RETURNING *;
+        INSERT INTO products(id, name) VALUES($1, $2) RETURNING *;
     `;
     const response = await client.query(SQL, [uuid.v4(), name]);
     return response.rows[0];
@@ -54,9 +54,9 @@ const fetchUsers = async () => {
     return response.rows;
 };
 
-const fetchProducts = async () => {
+const fetchproducts = async () => {
     const SQL = `
-        SELECT * FROM product;
+        SELECT * FROM products;
     `;
     const response = await client.query(SQL);
     return response.rows;
@@ -71,11 +71,11 @@ const fetchFavorites = async (user_id) => {
     return response.rows;
 };
 
-const createFavorite = async ({product_id, user_id}) => {
+const createFavorite = async ({products_id, user_id}) => {
     const SQL = `
-        INSERT INTO favorite(id, product_id, user_id) VALUES ($1, $2, $3);
+        INSERT INTO favorite(id, products_id, user_id) VALUES ($1, $2, $3);
     `;
-    const response = await client.query(SQL, [uuid.v4(), product_id, user_id]);
+    const response = await client.query(SQL, [uuid.v4(), products_id, user_id]);
     return response.rows[0];
 };
 
@@ -91,10 +91,10 @@ const destroyFavorite = async ({user_id, id}) => {
 module.exports = {
     client,
     createTables,
-    createProduct,
+    createproducts,
     createUser,
     fetchUsers,
-    fetchProducts,
+    fetchproducts,
     fetchFavorites,
     createFavorite,
     destroyFavorite
