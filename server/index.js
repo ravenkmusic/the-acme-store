@@ -10,8 +10,10 @@ const {
     destroyFavorite
 } = require('./db');
 const express = require('express');
+const morgan = require('morgan');
 const app = express();
 app.use(express.json());
+app.use(morgan('dev'));
 
 //routes
 
@@ -51,6 +53,17 @@ app.post('/api/users/:id/favorites', async(req, res, next)=> {
         next(error);
     }
 });
+
+//delete user favorite
+app.delete('/api/users/:userId/favorites/:id', async(req, res, next) => {
+    try {
+        console.log('Made it here.');
+        await destroyFavorite({user_id: req.params.userId, id: req.params.id});
+        res.sendStatus(204);
+    } catch (error) {
+        next(error);
+    }
+})
 
 //init function
 const init = async ()=> {
